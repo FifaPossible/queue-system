@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%- include('header') %>
+
+   <body class="">
+      <div class="wrapper">
+         <%- include("sidebar") %>
+
+         <div class="main-panel" style="border: 0">
+            <%- include("navbar") %>
+            <div class="content">
+               <div class="row">
+                  <div class="col-12">
+                     <div class="card card-chart">
+                        <div class="card-header">
+                           <div class="col-lg-12 col-md-12">
+                              <div class="row">
+                                 <% if(attended.length > 0){ %>
+                                 <p class="success"><%= attended %></p>
+                                 <% } %> <% if(deleted.length > 0){ %>
+                                 <p class="success"><%= deleted %></p>
+                                 <% } %>
+                              </div>
+                              <div class="card">
+                                 <div class="card-header">
+                                    <h4 class="card-title">
+                                       QUEUES NEXT IN LINE
+                                    </h4>
+                                 </div>
+                                 <% if(records !=null){ -%>
+                                 <div
+                                    class="card-body"
+                                    style="background: #1a1e34"
+                                 >
+                                    <div class="table-responsive">
+                                       <table class="table tablesorter" id="">
+                                          <thead class="text-primary">
+                                             <tr>
+                                                <th class="text-center">S/N</th>
+                                                <th class="text-center">
+                                                   First Name
+                                                </th>
+                                                <th class="text-center">
+                                                   Last Name
+                                                </th>
+                                                <th class="text-center">
+                                                   Other Name
+                                                </th>
+                                                <th>Email</th>
+                                                <th>Phone Number +234</th>
+                                                <th>
+                                                   Bank Verification Number
+                                                </th>
+                                                <th>
+                                                   National Identity Number
+                                                </th>
+                                                <th>Controls</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <% records.forEach( (rec, i)=> {
+                                             -%>
+                                             <tr>
+                                                <td><%= i+1 %></td>
+                                                <td><%= rec.first_name %></td>
+                                                <td><%= rec.last_name %></td>
+                                                <td><%= rec.other_name %></td>
+                                                <td><%= rec.email%></td>
+                                                <td><%= rec.phone_number%></td>
+                                                <td><%= rec.bvn %></td>
+                                                <td><%= rec.nin %></td>
+                                                <td>
+                                                   <a
+                                                      href="/queue/<%= rec._id %>"
+                                                   >
+                                                      <button
+                                                         type="button"
+                                                         rel="tooltip"
+                                                         title=""
+                                                         class="btn btn-link"
+                                                         data-original-title="Decrypt"
+                                                      >
+                                                         <i
+                                                            class="tim-icons icon-pencil"
+                                                         ></i>
+                                                         Decrypt & view
+                                                      </button>
+                                                   </a>
+                                                </td>
+                                             </tr>
+                                             <% }) %>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                                 <% } else { -%>
+                                 <h6>No record captured yet</h6>
+                                 <% } -%>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <%- include('footer') %>
+         </div>
+      </div>
+      <%- include("scripter") %>
+   </body>
+</html>

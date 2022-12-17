@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%- include('header') %>
+   <body>
+      <div class="wrapper">
+         <%- include("sidebar") %>
+
+         <div class="main-panel" style="border: 0">
+            <%- include("navbar") %>
+            <div class="content">
+               <div class="row" style="margin-top: 1rem">
+                  <div class="col-12">
+                     <div class="row">
+                        <% if(joined.length > 0){ %>
+                        <p class="success"><%= joined %></p>
+                        <% } %> <% if(error.length > 0){ %>
+                        <p class="error"><%= error %></p>
+                        <% } %>
+                     </div>
+                     <div class="card card-chart">
+                        <div class="card-header">
+                           <div class="row">
+                              <div class="col-sm-6 text-left flex">
+                                 <h5 class="card-category">Welcome</h5>
+
+                                 <h2 class="card-title">
+                                    <%= locals.user.first_name %> <%=
+                                    user.last_name %>
+                                 </h2>
+                              </div>
+                           </div>
+                        </div>
+                        <div
+                           class="card-body"
+                           style="
+                              background-image: url('/assets/img/encrypt.png');
+                              width: 100%;
+                              height: 100%;
+                              background-size: cover;
+                              background-position: cover;
+                           "
+                        >
+                           <div
+                              class="chart-area"
+                              style="
+                                 display: flex;
+                                 align-items: center;
+                                 justify-content: center;
+                              "
+                           >
+                              <div>
+                                 <h5>
+                                    We are currently occupied, we would get to
+                                    you shortly
+                                 </h5>
+                                 <h5>
+                                    Join the queue in order to be attended to in
+                                    time
+                                 </h5>
+                                 <form action="/queue" method="POST">
+                                    <input
+                                       type="hidden"
+                                       name="userId"
+                                       value="<%= locals.user._id %>"
+                                    />
+                                    <input
+                                       type="submit"
+                                       value="Join Queue"
+                                       class="btn"
+                                    />
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <%- include('footer') %>
+         </div>
+      </div>
+      <%- include("scripter") %>
+   </body>
+</html>

@@ -1,0 +1,50 @@
+.error {
+   color: white;
+   width: 100%;
+   text-align: center;
+   background-color: rgba(255, 0, 0, 0.557);
+   font-weight: bold;
+   padding: 0.5rem;
+   z-index: 1;
+}
+.text-center {
+   text-align: center;
+}
+.flex {
+   display: flex;
+}
+.items-center {
+   align-items: center;
+}
+.justify-center {
+   justify-content: center;
+}
+
+/* .wel {
+   text-align: center;
+   font-weight: bold;
+   font-size: large;
+   padding: 2rem;
+   width: 100%;
+}
+
+.d-m {
+   text-align: center;
+   padding: 1rem;
+   color: black;
+   z-index: 20;
+   font-size: 1rem;
+} */
+
+.text-black {
+   color: black;
+}
+
+.nav {
+   background: rgb(22, 22, 22);
+}
+
+.nav_link {
+   color: gray;
+   font-weight: bold;
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+   <%- include('header') %>
+
+   <body class="">
+      <div class="wrapper">
+         <%- include("sidebar") %>
+
+         <div class="main-panel" style="border: 0">
+            <%- include("navbar") %>
+            <div class="content">
+               <div class="row">
+                  <div class="col-12">
+                     <div class="row">
+                        <% if(error.length > 0){ %>
+                        <p class="error"><%= error %></p>
+                        <% } %>
+                     </div>
+                     <div class="card card-chart">
+                        <div class="card-header">
+                           <div class="row">
+                              <div class="col-sm-6 text-left">
+                                 <h5 class="card-category">Next in Queue</h5>
+                                 <h2 class="card-title">
+                                    Attend to <%=
+                                    record.first_name.toUpperCase() %>
+                                 </h2>
+                              </div>
+                              <div class="col-sm-6"></div>
+
+                              <div class="row mt-5">
+                                 <div class="errors">
+                                    <!-- <button class="cancelError" onclick="cancelButton()"> &times; </button> -->
+                                 </div>
+                                 <div class="successMsg"></div>
+
+                                 <div
+                                    class="col-sm-12 ml-3"
+                                    style="
+                                       display: flex;
+                                       align-items: center;
+                                       justify-content: center;
+                                    "
+                                 >
+                                    <div>
+                                       <h5 style="text-transform: uppercase">
+                                          First Name: <br /><%=
+                                          record.first_name %>
+                                       </h5>
+                                       <h5 style="text-transform: uppercase">
+                                          Last Name: <br /><%= record.last_name
+                                          %>
+                                       </h5>
+                                       <h5 style="text-transform: uppercase">
+                                          Phone Number: <br />+234 <%=
+                                          record.phone_number%>
+                                       </h5>
+                                       <h5 style="text-transform: uppercase">
+                                          Email: <br /><%= record.email%>
+                                       </h5>
+                                       <h5 style="text-transform: uppercase">
+                                          Bank Verification Number: <br /><%=
+                                          record.bvn %>
+                                       </h5>
+                                       <h5 style="text-transform: uppercase">
+                                          National Identity Number: <br /><%=
+                                          record.nin %>
+                                       </h5>
+                                       <div class="btn-flex">
+                                          <form
+                                             action="/attendQueue"
+                                             method="POST"
+                                          >
+                                             <input
+                                                type="hidden"
+                                                name="first_name"
+                                                value="<%= record.first_name %>"
+                                             />
+                                             <input
+                                                type="hidden"
+                                                name="phone_number"
+                                                value="<%= record.phone_number %>"
+                                             />
+                                             <input
+                                                type="hidden"
+                                                name="last_name"
+                                                value="<%= record.last_name %>"
+                                             />
+                                             <input
+                                                type="hidden"
+                                                name="id"
+                                                value="<%= record._id %>"
+                                             />
+                                             <input
+                                                type="submit"
+                                                value="Attend"
+                                                class="btn"
+                                             />
+                                          </form>
+
+                                          <a
+                                             type="submit"
+                                             href="/queue"
+                                             class="btn"
+                                             >Go back</a
+                                          >
+
+                                          <form
+                                             action="/deleteQueue"
+                                             method="POST"
+                                          >
+                                             <input
+                                                type="hidden"
+                                                name="id"
+                                                value="<%= record._id %>"
+                                             />
+
+                                             <input
+                                                type="submit"
+                                                value="Delete"
+                                                class="btn"
+                                                style="color: red"
+                                             />
+                                          </form>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <%- include('footer') %>
+         </div>
+      </div>
+      <%- include("scripter") %>
+   </body>
+</html>

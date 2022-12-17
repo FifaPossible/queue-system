@@ -1,0 +1,36 @@
+<div class="sidebar s-bar" style="background-color: #1a1e34">
+   <div class="sidebar-wrapper">
+      <div class="logo">
+         <!-- <a href="javascript:void(0)" class="simple-text logo-mini">
+        VP
+    </a> -->
+         <a href="javascript:void(0)" class="simple-text logo-normal">
+            <p style="font-size: 12px"><%= locals.user.first_name %> Menu</p>
+         </a>
+      </div>
+      <ul class="nav">
+         <li>
+            <a href="/dashboard">
+               <i class="tim-icons icon-chart-pie-36"></i>
+               <p>Dashboard</p>
+            </a>
+         </li>
+
+         <% if(locals.user.isAdmin) { -%>
+         <li>
+            <a href="/queue">
+               <i class="tim-icons icon-single-02"></i>
+               <p>Queues</p></a
+            >
+         </li>
+         <% } -%>
+
+         <li>
+            <a href="/logout">
+               <i class="tim-icons icon-button-power"></i>
+               <p>Logout</p>
+            </a>
+         </li>
+      </ul>
+   </div>
+</div>
