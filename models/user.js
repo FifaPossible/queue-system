@@ -52,6 +52,13 @@ const UserSchema = new mongoose.Schema(
          required: true,
          default: false,
       },
+      in_queue: {
+         type: Boolean,
+         default: false,
+      },
+      joined_queue: {
+         type: Date,
+      },
    },
    { timestamps: true }
 );

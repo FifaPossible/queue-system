@@ -66,6 +66,12 @@
                                           National Identity Number: <br /><%=
                                           record.nin %>
                                        </h5>
+                                       <h5 style="text-transform: uppercase">
+                                          Joined: <br /><%=
+                                          Math.round(Math.abs(new Date() -
+                                          record.joined_queue) / (60 * 1000)) %>
+                                          minutes ago
+                                       </h5>
                                        <div class="btn-flex">
                                           <form
                                              action="/attendQueue"

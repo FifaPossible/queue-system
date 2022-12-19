@@ -1,3 +1,4 @@
+import moment from "moment/moment.js";
 import twilio from "twilio";
 
 import { DESdecrypt } from "../encryption.js";
@@ -6,10 +7,29 @@ import User from "../models/user.js";
 
 export const createQueue = async (req, res) => {
    const user_id = req.body.userId;
+   const joined_queue = new Date();
+   const sendAt = moment(joined_queue).add(16, "m").toDate();
+
+   let client = twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+   );
+
    try {
-      const inQueue = await Queue.findOne({ user_id });
-      if (!inQueue) {
-         await Queue.create({ user_id });
+      const user = await User.findOne({ _id: user_id });
+      if (user.in_queue === false) {
+         await User.findOneAndUpdate(
+            { _id: user_id },
+            { in_queue: true, joined_queue }
+         );
+         const mess = await client.messages.create({
+            messagingServiceSid: process.env.MESSAGE_SERVICE_SID,
+            body: `dear ${user.first_name.toUpperCase()} ${user.last_name.toUpperCase()} we are currently attending to you right now.`,
+            sendAt,
+            scheduleType: "fixed",
+            from: `${process.env.TWILIO_PHONE_NUMBER}`,
+            to: `+234${user.phone_number}`,
+         });
          req.flash("joined", "Joined queue successfully");
          res.redirect("/dashboard");
       } else {
@@ -24,8 +44,14 @@ export const createQueue = async (req, res) => {
 
 export const deleteQueue = async (req, res) => {
    try {
-      await Queue.findOneAndDelete({ user_id: req.body.id });
-      req.flash("deleted", "Queue deleted successfully!!");
+      const user = await User.findOneAndUpdate(
+         { _id: req.body.id },
+         { in_queue: false }
+      );
+      req.flash(
+         "deleted",
+         `${user.first_name} ${user.last_name} removed from queue successfully!!`
+      );
       res.redirect("/queue");
    } catch (e) {
       req.flash("error", e.message);
@@ -39,12 +65,9 @@ export const updateQueue = async (req, res) => {
       process.env.TWILIO_AUTH_TOKEN
    );
    try {
-      const attended = await Queue.findOne({ user_id: req.body.id });
-      if (attended.attended === false) {
-         await Queue.findOneAndUpdate(
-            { user_id: req.body.id },
-            { attended: true }
-         );
+      const attended = await User.findOne({ _id: req.body.id });
+      if (attended.in_queue === true) {
+         await User.findOneAndUpdate({ _id: req.body.id }, { in_queue: false });
          await client.messages.create({
             body: `dear ${req.body.first_name.toUpperCase()} ${req.body.last_name.toUpperCase()} you have been attended to in our banking system`,
             from: `${process.env.TWILIO_PHONE_NUMBER}`,
@@ -67,13 +90,14 @@ export const updateQueue = async (req, res) => {
 
 export const getQueue = async (req, res) => {
    try {
-      let userIds = [];
-      const queue = await Queue.find();
-      queue
-         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-         .filter((d) => !d.attended)
-         .map((d, k) => userIds.push(d.user_id));
-      const records = await User.find({ _id: { $in: userIds } });
+      const queue = await User.find();
+      const records = queue
+         .sort(
+            (b, a) =>
+               new Date(a.joined_queue).getTime() -
+               new Date(b.joined_queue).getTime()
+         )
+         .filter((d) => d.in_queue);
       const attended = req.flash("attended");
       const deleted = req.flash("deleted");
       res.render("queues", { records, attended, deleted });
