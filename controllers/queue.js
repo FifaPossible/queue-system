@@ -2,7 +2,6 @@ import moment from "moment/moment.js";
 import twilio from "twilio";
 
 import { DESdecrypt } from "../encryption.js";
-import Queue from "../models/queue.js";
 import User from "../models/user.js";
 
 export const createQueue = async (req, res) => {
